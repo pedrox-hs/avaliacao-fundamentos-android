@@ -10,6 +10,8 @@ import java.util.List;
 
 public final class ServiceOrdersRepository {
 
+    public static boolean showActive = true;
+
     private static class Singleton {
         public static final ServiceOrdersRepository INSTANCE = new ServiceOrdersRepository();
     }
@@ -36,21 +38,28 @@ public final class ServiceOrdersRepository {
         helper.close();
     }
 
-    public void delete(ServiceOrder serviceOrder) {
+    public void archive(ServiceOrder serviceOrder){
         DatabaseHelper helper = new DatabaseHelper(AppUtil.CONTEXT);
         SQLiteDatabase db = helper.getWritableDatabase();
         String where = ServiceOrderContract.ID + " = ?";
         String[] args = {serviceOrder.getId().toString()};
-        db.delete(ServiceOrderContract.TABLE, where, args);
+        db.update(ServiceOrderContract.TABLE, ServiceOrderContract.getContentValues(serviceOrder), where, args);
         db.close();
         helper.close();
     }
 
     public List<ServiceOrder> getAll() {
+        String active = (showActive) ? "1" : "0";
+
+        String whereClause = " active = ? ";
+        String[] whereArgs = new String[]{ active };
+
         DatabaseHelper helper = new DatabaseHelper(AppUtil.CONTEXT);
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor cursor = db.query(ServiceOrderContract.TABLE, ServiceOrderContract.COLUMNS, null, null, null, null, ServiceOrderContract.DATE);
+
+        Cursor cursor = db.query(ServiceOrderContract.TABLE, ServiceOrderContract.COLUMNS, whereClause, whereArgs, null, null, ServiceOrderContract.DATE);
         List<ServiceOrder> serviceOrders = ServiceOrderContract.bindList(cursor);
+
         db.close();
         helper.close();
         return serviceOrders;

@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.administrador.myapplication.R;
+import com.example.administrador.myapplication.models.entities.User;
 import com.example.administrador.myapplication.util.AppUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +20,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final User user = new User();
+        if (user.countUsers() == 0) {
+            startActivity(new Intent(MainActivity.this, UserEmptyActivity.class));
+        }
+
         setContentView(R.layout.activity_main_material);
 
         final EditText txtLogin = AppUtil.get(findViewById(R.id.editTextLogin));
@@ -31,9 +39,23 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ServiceOrderListActivity.class));
+                user.setLogin(txtLogin.getText().toString());
+                user.setPassword(txtPass.getText().toString());
+                if (user.authenticate()) {
+                    startActivity(new Intent(MainActivity.this, ServiceOrderListActivity.class));
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.msg_login_fail, Toast.LENGTH_LONG).show();
+                }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            Toast.makeText(this, R.string.msg_register_success, Toast.LENGTH_LONG).show();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.administrador.myapplication.R;
 import com.example.administrador.myapplication.models.entities.ServiceOrder;
+import com.example.administrador.myapplication.models.persistence.ServiceOrdersRepository;
 import com.example.administrador.myapplication.util.AppUtil;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -98,15 +99,21 @@ public class ServiceOrderListActivity extends AppCompatActivity implements Popup
             case R.id.actionDelete:
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.lbl_confirm)
-                        .setMessage(R.string.msg_delete)
+                        .setMessage(serviceOrder.isActive() ? R.string.msg_question_archive : R.string.msg_question_restore)
                         .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Delete and show a message
-                                serviceOrder.delete();
-                                Toast.makeText(ServiceOrderListActivity.this, R.string.msg_delete_success, Toast.LENGTH_LONG).show();
+
+                                serviceOrder.setActive(!serviceOrder.isActive());//set prop to archive item
+                                serviceOrder.archive();
+
+                                // Message
+                                Toast.makeText(ServiceOrderListActivity.this, (!serviceOrder.isActive() ? R.string.msg_archived : R.string.msg_restored ),
+                                Toast.LENGTH_LONG).show();
+
                                 // Update recycler view dataset
                                 updateRecyclerItens();
+
                                 // Force onPrepareOptionsMenu call
                                 supportInvalidateOptionsMenu();
                             }
@@ -150,6 +157,20 @@ public class ServiceOrderListActivity extends AppCompatActivity implements Popup
                 if (sendIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(chooser);
                 }
+                return true;
+            case R.id.actionServiceOrderArchive:
+                ServiceOrdersRepository.showActive = !ServiceOrdersRepository.showActive;
+
+                String msg = (!ServiceOrdersRepository.showActive) ? getString(R.string.msg_archived_disable) : getString(R.string.msg_archived_enable);
+
+                Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
+
+                // Update recycler view dataset
+                updateRecyclerItens();
+
+                // Force onPrepareOptionsMenu call
+                supportInvalidateOptionsMenu();
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

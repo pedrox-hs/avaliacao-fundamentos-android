@@ -8,4 +8,10 @@
         android:icon="@mipmap/ic_action_share"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/actionServiceOrderArchive"
+        android:title="@string/lbl_archive"
+        android:icon="@mipmap/ic_archive"
+        app:showAsAction="always" />
+
 </menu>

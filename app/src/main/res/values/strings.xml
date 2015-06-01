@@ -37,5 +37,24 @@
     <string name="lbl_confirm">Confirm</string>
     <string name="lbl_share">Share</string>
     <string name="lbl_share_option">Choose one option</string>
+    <string name="lbl_btn_create_user">Cadastrar usuário</string>
+    <string name="txt_empty_user">Ops, nenhum usuário cadastrado.</string>
+    <string name="lbl_btn_register">Cadastrar</string>
+    <string name="lbl_repass">Repetir senha</string>
+    <string name="msg_invalid_repassword">Senhas não conferem!</string>
+    <string name="title_activity_user">Cadastrar usuário</string>
+    <string name="title_activity_user_empty">Nenhum usuário cadastrado</string>
+    <string name="msg_register_success">Usuário cadastrado com sucesso!</string>
+    <string name="msg_login_fail">Login e/ou senha inválida.</string>
+    <string name="lbl_disable">Desativado</string>
+    <string name="msg_archived_disable">Arquivados</string>
+    <string name="msg_archived_enable">Ativos</string>
+    <string name="lbl_archive">Arquivados</string>
+    <string name="msg_question_archive">Deseja desativar este item?</string>
+    <string name="msg_question_restore">Deseja restaurar este item?</string>
+    <string name="msg_archived">Item arquivado com sucesso!</string>
+    <string name="msg_restored">Item restaurado com sucesso!</string>
+    <string name="lbl_to_archive">Arquivar</string>
+    <string name="lbl_to_restore">Restaurar</string>
 
 </resources>

@@ -92,6 +92,10 @@ public class ServiceOrder implements Parcelable {
         return this.mActive;
     }
 
+    public boolean isActive () {
+        return this.mActive;
+    }
+
     public void setActive (boolean active) {
         this.mActive = active;
     }
@@ -130,6 +134,7 @@ public class ServiceOrder implements Parcelable {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (mPaid ? 1 : 0);
         result = 31 * result + (mDescription != null ? mDescription.hashCode() : 0);
+        result = 31 * result + (mActive? 1 : 0);
         return result;
     }
 
@@ -144,6 +149,7 @@ public class ServiceOrder implements Parcelable {
                 ", \"value\":" + mValue +
                 ", \"paid\":" + mPaid +
                 ", \"description\": \"" + mDescription + '\"' +
+                ", \"paid\":" + mPaid +
                 "}";
     }
 
@@ -155,8 +161,8 @@ public class ServiceOrder implements Parcelable {
         ServiceOrdersRepository.getInstance().save(this);
     }
 
-    public void delete() {
-        ServiceOrdersRepository.getInstance().delete(this);
+    public void archive() {
+        ServiceOrdersRepository.getInstance().archive(this);
     }
 
     @Override
@@ -174,6 +180,7 @@ public class ServiceOrder implements Parcelable {
         dest.writeDouble(this.mValue);
         dest.writeByte(mPaid ? (byte) 1 : (byte) 0);
         dest.writeString(this.mDescription);
+        dest.writeByte(mActive ? (byte) 1 : (byte) 0);
     }
 
     private ServiceOrder(Parcel in) {
@@ -186,6 +193,7 @@ public class ServiceOrder implements Parcelable {
         this.mValue = in.readDouble();
         this.mPaid = in.readByte() != 0;
         this.mDescription = in.readString();
+        this.mActive = in.readByte() != 0;
     }
 
     public static final Parcelable.Creator<ServiceOrder> CREATOR = new Parcelable.Creator<ServiceOrder>() {

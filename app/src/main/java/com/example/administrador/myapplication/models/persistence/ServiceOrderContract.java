@@ -20,8 +20,9 @@ public class ServiceOrderContract {
     public static final String VALUE = "value";
     public static final String PAID = "paid";
     public static final String DESCRIPTION = "description";
+    public static final String ACTIVE = "active";
 
-    public static final String[] COLUMNS = {ID, CLIENT, PHONE, ADDRESS, DATE, VALUE, PAID, DESCRIPTION};
+    public static final String[] COLUMNS = {ID, CLIENT, PHONE, ADDRESS, DATE, VALUE, PAID, DESCRIPTION, ACTIVE};
 
     public static String createTable() {
         final StringBuilder sql = new StringBuilder();
@@ -35,7 +36,8 @@ public class ServiceOrderContract {
         sql.append(DATE + " INTEGER, ");
         sql.append(VALUE + " REAL, ");
         sql.append(PAID + " INTEGER, ");
-        sql.append(DESCRIPTION + " TEXT ");
+        sql.append(DESCRIPTION + " TEXT, ");
+        sql.append(ACTIVE + " INTEGER ");
         sql.append(" ); ");
         return sql.toString();
     }
@@ -50,13 +52,14 @@ public class ServiceOrderContract {
         content.put(VALUE, serviceOrder.getValue());
         content.put(PAID, serviceOrder.isPaid() ? 1 : 0);
         content.put(DESCRIPTION, serviceOrder.getDescription());
+        content.put(ACTIVE, serviceOrder.isActive() ? 1 : 0);
         return content;
     }
 
     public static ServiceOrder bind(Cursor cursor) {
         if (!cursor.isBeforeFirst() || cursor.moveToNext()) {
             ServiceOrder serviceOrder = new ServiceOrder();
-            serviceOrder.setId((cursor.getInt(cursor.getColumnIndex(ID))));
+            serviceOrder.setId(cursor.getInt(cursor.getColumnIndex(ID)));
             serviceOrder.setClient(cursor.getString(cursor.getColumnIndex(CLIENT)));
             serviceOrder.setPhone(cursor.getString(cursor.getColumnIndex(PHONE)));
             serviceOrder.setAddress(cursor.getString(cursor.getColumnIndex(ADDRESS)));
@@ -64,6 +67,7 @@ public class ServiceOrderContract {
             serviceOrder.setValue(cursor.getFloat(cursor.getColumnIndex(VALUE)));
             serviceOrder.setPaid(cursor.getInt(cursor.getColumnIndex(PAID)) == 1);
             serviceOrder.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+            serviceOrder.setActive(cursor.getInt(cursor.getColumnIndex(ACTIVE)) == 1);
             return serviceOrder;
         }
         return null;

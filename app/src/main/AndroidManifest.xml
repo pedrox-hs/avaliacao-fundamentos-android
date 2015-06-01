@@ -20,6 +20,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".controllers.UserEmptyActivity"
+            android:label="@string/title_activity_user_empty"
+            android:parentActivityName=".controllers.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".controllers.UserActivity"
+            android:label="@string/title_activity_user"
+            android:parentActivityName=".controllers.UserEmptyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.MainActivity" />
+        </activity>
+
         <activity
             android:name=".controllers.ServiceOrderListActivity"
             android:label="@string/title_activity_service_order_list"
@@ -28,6 +47,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".controllers.MainActivity" />
         </activity>
+
         <activity
             android:name=".controllers.ServiceOrderActivity"
             android:label="@string/title_activity_service_order"
