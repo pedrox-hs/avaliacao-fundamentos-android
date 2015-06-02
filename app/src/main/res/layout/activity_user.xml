@@ -8,14 +8,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    tools:context=".UserActivity">
 
     <com.wrapp.floatlabelededittext.FloatLabeledEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editTextLogin"
+            android:id="@+id/editTextNewLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/lbl_user" />
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editTextPass"
+            android:id="@+id/editTextNewPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/lbl_pass"
@@ -35,12 +35,17 @@
 
     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-    <Button
-        android:id="@+id/buttonLogin"
-        style="@style/MyButton"
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/lbl_btn_login" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextRePass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lbl_repass"
+            android:inputType="textPassword" />
+
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 </LinearLayout>
